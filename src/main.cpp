@@ -3,7 +3,7 @@
 #include <iostream>
 
 int main() {
-    int m, capacity;
+    int m, capacity, a;
     double inAmin, inAmax, inT;
     std::cout << "Podaj pojemność systemu: ";
     std::cin >> capacity;
@@ -20,9 +20,13 @@ int main() {
         std::cin >> inT;
         system.addStream(Stream(inT));
     }
-    
-    system.calculate();
+    system.calculateSumOfA();
+    system.calculateSumOfElements();
+    system.calcProbability();
+ //   system.calculate();
     system.saveResultsToFile("results.txt");
-    
+    system.printResults();
+    std::cout<<"TS: " << system.getTotalSum();
+
     return 0;
 }
