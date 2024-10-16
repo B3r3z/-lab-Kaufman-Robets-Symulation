@@ -12,7 +12,7 @@ void System::calculate() {
 }
 
 void System::calculateSumOfA() {
-    double baseSumOfA = ((_aMax - _aMin) / (_step + 1.0)) * ((_aMin + _aMax) / 2.0);
+    double baseSumOfA = (_step*(_aMax+_aMin) + _aMax*_aMax - _aMin*_aMin)/(2*_step); // arytmet. sum of A
     baseSumOfA *= _capacity;  // Base calculation using capacity
 
     for (auto& _stream : _streams) {
@@ -24,23 +24,16 @@ void System::calculateSumOfA() {
         double streamSpecificSumOfA = baseSumOfA / tmp;  // Calculate specific sumOfA for this stream
         _stream.setAvrageA(streamSpecificSumOfA);  // Set the specific average for this stream
     }
+    _sumOfA = baseSumOfA;
 }
 
 void System::calculateSumOfElements() {
-    //double totalSum = 0.0;
-    double innerSum = 1.0;  // Start with SUM(0) = 1
-    int m = _capacity;  // Number of streams
+}
 
-    for (int n = 1; n <= m; ++n) {  // Start from 1 to avoid division by zero
-        double currentSum = 0.0;
-        for (const auto& _stream : _streams) {
-            currentSum += _stream.getAvrageA() * _stream.getT();
-        }
-        innerSum = (1.0 / n) * currentSum * innerSum;  // Recursive calculation
-    }
+void System::calcProbability() {
 
-    _totalSum = innerSum;
 } 
+
 void System::saveResultsToFile(const std::string& filename) const {
     std::ofstream file(filename);
     if (!file.is_open()) {
@@ -66,26 +59,6 @@ void System::saveResultsToFile(const std::string& filename) const {
     }
 
     file.close();
-}
-
-void System::calcProbability() {
-    if (_totalSum == 0) {
-        std::cerr << "Error: _totalSum is zero, cannot calculate probabilities." << std::endl;
-        return;
-    }
-    int m = _capacity;  // Number of streams
-    _results.resize(m);  // Ensure _results has enough space for m elements
-    for (int n = 1; n <= m; ++n) {  // Start from 1 to avoid division by zero
-        double innerSum = 1.0;  // Reset innerSum for each n
-        double currentSum = 0.0;
-        std::vector<double> vectorOfProbability;  // Create a new vector for each n
-        for (const auto& _stream : _streams) {
-            currentSum += _stream.getAvrageA() * _stream.getT();
-            innerSum = (1.0 / n) * currentSum * innerSum; 
-            vectorOfProbability.push_back(innerSum/_totalSum);
-        }
-        _results[n - 1] =vectorOfProbability;  // Adjust index if _results is zero-indexed
-    }
 }
 
 void System::printResults() const{

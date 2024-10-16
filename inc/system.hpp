@@ -9,7 +9,7 @@ public:
     ~System() {};
     void addStream(Stream stream);
     void calculate();
-    void calculateSumOfA();
+    void calculateSumOfA(); // calculate _sumOfA * capacity, and calculate avrage A for each stream
     void calculateSumOfElements();
     void calcProbability();
     void printResults() const;
