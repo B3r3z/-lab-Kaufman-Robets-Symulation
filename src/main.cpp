@@ -20,13 +20,10 @@ int main() {
         std::cin >> inT;
         system.addStream(Stream(inT));
     }
-    system.calculateSumOfA();
-    system.calculateSumOfElements();
-    system.calcProbability();
- //   system.calculate();
-    system.saveResultsToFile("results.txt");
-    system.printResults();
-    std::cout<<"TS: " << system.getTotalSum();
+    system.calculateAverageInputOfStream();
+    system.calculateProbability();
+    //system.saveResultsToFile("results.txt");
+    
 
     return 0;
 }
